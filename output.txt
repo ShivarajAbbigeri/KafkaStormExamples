@@ -1,0 +1,138 @@
+scalable : 1
+
+software : 2
+
+data : 3
+
+project : 1
+
+source : 1
+
+developed : 1
+
+via : 1
+
+apache : 2
+
+connects : 1
+
+java : 1
+
+written : 1
+
+export : 1
+
+making : 1
+
+in : 1
+
+streams : 1
+
+its : 1
+
+distributed : 1
+
+is : 2
+
+real : 1
+
+it : 1
+
+an : 1
+
+as : 1
+
+external : 1
+
+provide : 1
+
+kafka : 4
+
+processing : 2
+
+valuable : 1
+
+architected : 1
+
+sub : 1
+
+import : 1
+
+scala : 1
+
+log : 1
+
+enterprise : 1
+
+latency : 1
+
+for : 3
+
+foundation : 1
+
+storage : 1
+
+platform : 2
+
+layer : 1
+
+java. : 1
+
+streaming : 1
+
+library : 1
+
+stream : 2
+
+low : 1
+
+systems : 1
+
+and : 2
+
+provides : 1
+
+by : 1
+
+high-throughput : 1
+
+feeds : 1
+
+connect : 1
+
+highly : 1
+
+a : 4
+
+process : 1
+
+aims : 1
+
+message : 1
+
+massively : 1
+
+the : 2
+
+unified : 1
+
+additionally : 1
+
+handling : 1
+
+essentially : 1
+
+to : 3
+
+time : 1
+
+infrastructures : 1
+
+pub : 1
+
+open : 1
+
+queue : 1
+
+transaction : 1
+
