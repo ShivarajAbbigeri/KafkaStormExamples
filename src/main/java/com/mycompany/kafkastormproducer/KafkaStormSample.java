@@ -26,7 +26,7 @@ public class KafkaStormSample {
       config.setDebug(true);
       config.put(Config.TOPOLOGY_MAX_SPOUT_PENDING, 1);
       String zkConnString = "localhost:2181";
-      String topic = "kafkastormproducer";
+      String topic = "words";
       BrokerHosts hosts = new ZkHosts(zkConnString);
       
       SpoutConfig kafkaSpoutConfig = new SpoutConfig (hosts, topic, "/" + topic,    
@@ -40,12 +40,13 @@ public class KafkaStormSample {
       builder.setSpout("kafka-spout", new KafkaSpout(kafkaSpoutConfig));
       builder.setBolt("word-spitter", new SplitBolt()).shuffleGrouping("kafka-spout");
       builder.setBolt("word-counter", new CountBolt()).shuffleGrouping("word-spitter");
-         
+  //    builder.setBolt("forwardToKafka", new WriteToKafka()).shuffleGrouping("word-counter");   
       LocalCluster cluster = new LocalCluster();
       cluster.submitTopology("KafkaStormSample", config, builder.createTopology());
 
       Thread.sleep(100000);
-      
+      SimpleConsumer sc=new SimpleConsumer();
+      sc.Consume();
       cluster.shutdown();
    }
 }

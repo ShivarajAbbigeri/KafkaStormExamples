@@ -9,17 +9,23 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.PrintWriter;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.topology.IRichBolt;
 import org.apache.storm.task.TopologyContext;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Values;
 public class CountBolt implements IRichBolt{
    Map<String, Integer> counters;
    private OutputCollector collector;
-   
+
    @Override
    public void prepare(Map stormConf, TopologyContext context,
    OutputCollector collector) {
@@ -37,7 +43,7 @@ public class CountBolt implements IRichBolt{
          Integer c = counters.get(str) +1;
          counters.put(str, c);
       }
-   
+
       collector.ack(input);
    }
 
@@ -46,7 +52,8 @@ public class CountBolt implements IRichBolt{
       PrintWriter pw=null;
         try {
             
-            pw = new PrintWriter("output.txt");
+            pw = new PrintWriter("outputCountbolt.txt");
+            
       for(Map.Entry<String, Integer> entry:counters.entrySet()){
          
          
@@ -54,8 +61,10 @@ public class CountBolt implements IRichBolt{
               
               pw.append(entry.getKey()+" : " + entry.getValue());
               pw.println("\n");
-          
+                     
           }
+          WriteToKafka wr=new WriteToKafka();
+          wr.Write(counters);
       } catch (FileNotFoundException ex) {
               Logger.getLogger(CountBolt.class.getName()).log(Level.SEVERE, null, ex);
           } finally {
@@ -65,7 +74,7 @@ public class CountBolt implements IRichBolt{
 
    @Override
    public void declareOutputFields(OutputFieldsDeclarer declarer) {
-   
+    
    }
 
   

@@ -5,19 +5,27 @@
  */
 package com.mycompany.kafkastormproducer;
 
-/**
- *
- * @author admin
- */
-//import util.properties packages
-import java.io.File;
+
+
+
+
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 
-//import simple producer packages
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.IRichBolt;
+
+import org.apache.storm.topology.OutputFieldsDeclarer;
+
+import org.apache.storm.tuple.Tuple;
 import org.apache.kafka.clients.producer.Producer;
 
 //import KafkaProducer packages
@@ -25,23 +33,20 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 
 //import ProducerRecord packages
 import org.apache.kafka.clients.producer.ProducerRecord;
-
-//Create java class named “SimpleProducer”
-public class SimpleProducer {
-   
-   SimpleProducer(){
-       //Produce();
-       //this.Produce();
-   }
+/**
+ *
+ * @author admin
+ */
+public class WriteToKafka {
+    
+     //Assign topicName to string variable
+      String topicName="wordsoutput";
+      Producer<String, String> producer;
+      PrintWriter pw=null;
       
-      
-    void Produce(){  
-      //Assign topicName to string variable
-      String topicName = "words";
-      
-      // create instance for properties to access producer configs   
+      // create instance for properties to access producer configs 
       Properties props = new Properties();
-      
+      void Write(Map<String, Integer> count){
       //Assign localhost id
       props.put("bootstrap.servers", "localhost:9092");
       
@@ -65,21 +70,24 @@ public class SimpleProducer {
          "org.apache.kafka.common.serialization.StringSerializer");
       
       Producer<String,String> producer = new KafkaProducer<String,String>(props);
-           
-    File fin=new File("E://KafkaInput.txt");
-    try{
-     Scanner sin=new Scanner(fin);
-     while(sin.hasNext()){
-         String input=sin.nextLine();
+      PrintWriter pw=null;
+        try {
+            
+            pw = new PrintWriter("outputOfWriteKafka.txt");
+            
+      for(Map.Entry<String, Integer> entry:count.entrySet()){
          
-           producer.send(new ProducerRecord<String,String>(topicName, input));  
-
-     }
-     System.out.println("Message sent successfully");
-     producer.close();
-    }catch(Exception e){
-    System.out.println(e);
-    }
-
-   }      
+         
+              System.out.println(entry.getKey()+" : " + entry.getValue());
+              
+              pw.append(entry.getKey()+" : " + entry.getValue());
+              pw.println("\n");
+             producer.send(new ProducerRecord<String,String>(topicName, entry.getKey()+" : " + entry.getValue()));      
+          }
+      }catch (FileNotFoundException ex) {
+              Logger.getLogger(CountBolt.class.getName()).log(Level.SEVERE, null, ex);
+          } finally {
+              pw.close();
+        }
+}
 }
