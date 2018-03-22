@@ -64,7 +64,9 @@ directly import using file->import->import from zip option given by **NetBeans**
       ```
       > bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic wordsoutput --from-beginning
       ```
+    * create a input file and write some sentences into that file. sample file which I have give is
+      [KafkaInput.txt](https://docs.google.com/document/d/1Mwwk9yHk0xhoFdX2Kk9swhDXM7eUktyZHozi91DyQk4/edit?usp=sharing). and give the path of input file in the java file called SimpleProducer.java.
       
 Now we are ready to run the project.
-* Now go to netbeans and run the project it will take atleast 4 to 5 minutes to run and will produce lot of messages onto the console, don't worry, finally it will say build success and go to console consumer that you have created in previous step, you will get wordcount onto console of output topic and you'll see sentences in the console of input topic. You can also see the output in the ouput file.
+* Now go to netbeans and run the project it will take atleast 4 to 5 minutes to run and will produce lot of messages onto the console, don't worry, finally it will say build success and go to console consumer that you have created in previous step, you will get wordcount onto console of output topic and you'll see sentences in the console of input topic. You can also see the output in the ouput file called outputOfWriteKafka.txt.
 
